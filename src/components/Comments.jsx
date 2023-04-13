@@ -1,50 +1,62 @@
 import React from 'react'
-import deleteicon from '../Assets/avatars/icon-delete.svg'
-import editicon from '../Assets/avatars/icon-edit.svg'
-import replyicon from '../Assets/avatars/icon-reply.svg'
-import ChartContext from '../context/ChartContext'
-import { useContext } from 'react'
+import Data from '../Assets/data.json'
+import { useState } from 'react'
+import Input from './Input'
+import Comment from './Comment'
 
-const Comments = ({image,name,active,word,count,Id}) => {
 
+
+const Comments = () => {
+    const[comments,setComments] = useState(Data.comments)
+    const[text,setText] = useState('')
+    const[reply,setReply] = useState(false)
+    const[edit,setEdit] = useState(false)
+    const switchReply = ()=>setReply(true)
     
-
-    const{handleEdit,setText,handlereply,text,edit,comment} = useContext(ChartContext)
+    const handleReply = (id)=>{
+        const updatedComment =[...comments]
+        const commentIndex = comments.findIndex(i=>i===id)
+         const newreply = {id:new Date().getTime().toString(), content:text}
+         updatedComment[commentIndex].replies.push(newreply);
+         setComments(updatedComment)
+         setReply(false)
+         setText('')
+        console.log(comments)
+    }
+    const handleDelete = (id)=>{
+        comments.filter(item => item.id !== id)
+    }
+    const OnEdit =(id)=>{
+        setEdit(true)
+        const EditedComment = comments.find(i=>i.id===id) 
+        setText(EditedComment.content)
+    }
+    const handleEdit= (id)=>{
+        if(text && edit){
+            setComments(
+                comments.map(item=>{
+                if(item.id===id){
+                    return{...item,content:text}
+                }
+                return item
+       })    
+            )
+        }
+        setEdit(false)
+       console.log(comments)
+    }  
   return (
-    <div>
-        <section>
-            <div className='container comment-section'>
-                <div className='btn-container'>
-                <button>+</button>
-                <h4>{count}</h4>
-                <button>-</button>
-                </div>
-                <div className='left-side'>
-                    <div className = 'user-info'>
-                        <div className='user_avater'>
-                            <img src={image} alt='amy'/>
-                            <p>{name}</p>
-                            <small>{active}</small>
-                        </div>
-                        {edit? 
-                            <div>
-                            <button>
-                                <img src={deleteicon} alt="delete" />
-                                <p>Delete</p>
-                            </button>
-                            <button>
-                                <img src={editicon} alt="delete" />
-                                <p>Edit</p>
-                            </button>
-                            </div> : <button><img src={replyicon} alt= 'reply-icon' />reply</button> 
-                        }
-                    </div>
-                    <p onClick={()=>handleEdit(Id)}>{word}</p>
-                </div> 
-            </div>    
-        </section>
+    <section>
+        {
+            comments.map((data,i)=>{
+                return(
+                    <Comment key={data.id} data={data} reply={reply} switchReply={switchReply} handleReply={handleReply} text={text} setText={setText}/>
+                )
+            })
+        } 
+        <Input text={text} setText={setText} btnText={'Send'}  /> 
+    </section>
           
-    </div>
   )
 }
 
