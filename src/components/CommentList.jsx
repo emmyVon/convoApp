@@ -17,8 +17,8 @@ const CommentList = () => {
         score: 0,
         user: Data.currentUser,
         replies: [],
-      },
-    ]);
+      }],
+    );
 
     setText("");
   };

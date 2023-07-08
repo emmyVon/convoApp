@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import replyicon from "../Assets/avatars/icon-reply.svg";
 import imagejulius from "../Assets/avatars/image-juliusomo.png";
 import Data from "../Assets/data.json";
@@ -11,7 +11,7 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
     content,
     score,
     user: {
-      image: { png, webp },
+      image: { png },
       username,
     },
     replies,
@@ -60,10 +60,10 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
     setReplyList((prev) => prev.filter((i) => i.id !== replyId));
   };
 
-  const handleEditReplyForReply = ({ replyId, replyEditText }) => {
+  const handleEditReplyForReply = ({ commentId, commentEditText }) => {
     const updatedReplyList = replyList.map((i) => {
-      if (i.id === replyId) {
-        i.content = replyEditText;
+      if (i.id === commentId) {
+        i.content = commentEditText;
       }
       return i;
     });
@@ -119,7 +119,21 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
                     </button>
                   )}
                 </div>
-                <p>{content}</p>
+                {edit ? (
+                  <div className="input-section">
+                    <img src={imagejulius} alt="img" />
+                    <input
+                      type="text"
+                      placeholder="Add a comment"
+                      value={editText}
+                      onChange={(e) => setEditText(e.target.value)}
+                    />
+                    <button onClick={handleEditSubmit}>Reply</button>
+                    <button onClick={toggleEdit}>Cancel</button>
+                  </div>
+                ) : (
+                  <p>{content}</p>
+                )}
               </div>
             </div>
           </div>
