@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import replyicon from "../Assets/avatars/icon-reply.svg";
 import imagejulius from "../Assets/avatars/image-juliusomo.png";
 import Data from "../Assets/data.json";
@@ -11,7 +11,7 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
     content,
     score,
     user: {
-      image: { png, webp },
+      image: { png },
       username,
     },
     replies,
@@ -60,10 +60,10 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
     setReplyList((prev) => prev.filter((i) => i.id !== replyId));
   };
 
-  const handleEditReplyForReply = ({ replyId, replyEditText }) => {
+  const handleEditReplyForReply = ({ commentId, commentEditText }) => {
     const updatedReplyList = replyList.map((i) => {
-      if (i.id === replyId) {
-        i.content = replyEditText;
+      if (i.id === commentId) {
+        i.content = commentEditText;
       }
       return i;
     });
@@ -101,25 +101,41 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
                     <p>{username}</p>
                     <small>{createdAt}</small>
                   </div>
-                  {Data.currentUser.username === username ? (
-                    <div>
-                      <button onClick={() => handleDeleteReply(id)}>
-                        <img src={deleteicon} alt="delete-icon" />
-                        Delete
+                  <div className="reply-button">
+                    {Data.currentUser.username === username ? (
+                      <div>
+                        <button onClick={() => handleDeleteReply(id)}>
+                          <img src={deleteicon} alt="delete-icon" />
+                          Delete
+                        </button>
+                        <button onClick={toggleEdit}>
+                          <img src={editicon} alt="edit-icon" />
+                          edit
+                        </button>
+                      </div>
+                    ) : (
+                      <button onClick={() => setReply((prev) => !prev)}>
+                        <img src={replyicon} alt="reply-icon" />
+                        reply
                       </button>
-                      <button onClick={toggleEdit}>
-                        <img src={editicon} alt="edit-icon" />
-                        edit
-                      </button>
-                    </div>
-                  ) : (
-                    <button onClick={() => setReply((prev) => !prev)}>
-                      <img src={replyicon} alt="reply-icon" />
-                      reply
-                    </button>
-                  )}
+                    )}
+                  </div>
                 </div>
-                <p>{content}</p>
+                {edit ? (
+                  <div className="input-section">
+                    <img src={imagejulius} alt="img" />
+                    <input
+                      type="text"
+                      placeholder="Add a comment"
+                      value={editText}
+                      onChange={(e) => setEditText(e.target.value)}
+                    />
+                    <button onClick={handleEditSubmit}>Reply</button>
+                    <button onClick={toggleEdit}>Cancel</button>
+                  </div>
+                ) : (
+                  <p>{content}</p>
+                )}
               </div>
             </div>
           </div>
@@ -138,15 +154,18 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
           ) : null}
 
           {replyList?.length ? (
-            <div style={{ marginLeft: "6rem" }}>
-              {replyList.map((i) => (
-                <ReplyView
-                  key={i.id}
-                  comment={i}
-                  handleDeleteReply={handleDeleteReplyForReply}
-                  handleEditReply={handleEditReplyForReply}
-                />
-              ))}
+            <div className="replied-container">
+              <div className="replied-divid" />
+              <div>
+                {replyList.map((i) => (
+                  <ReplyView
+                    key={i.id}
+                    comment={i}
+                    handleDeleteReply={handleDeleteReplyForReply}
+                    handleEditReply={handleEditReplyForReply}
+                  />
+                ))}
+              </div>
             </div>
           ) : null}
         </>
@@ -156,3 +175,5 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
 };
 
 export default ReplyView;
+
+// style={{ marginLeft: "6rem" }}

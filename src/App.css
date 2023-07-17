@@ -7,9 +7,13 @@ body {
   background-color: grey;
 }
 
-.container {
+/* .container {
   display: grid;
   grid-template-columns: 10% 90%;
+} */
+.container {
+  display: flex;
+  gap: 1.5rem;
 }
 
 .btn {
@@ -21,16 +25,17 @@ body {
   width: 5rem;
 }
 
-.App {
+section {
   margin: 0 auto;
   max-width: 1120px;
+  width: 90vw;
 }
-.overall {
+/* .overall {
   margin-bottom: 2rem;
-}
+} */
 
 .comment-section {
-  /* width: 100%; */
+  width: 90%;
   background-color: white;
   box-shadow: 15px, 15px, 5px;
   border-radius: 10px;
@@ -40,15 +45,14 @@ body {
 }
 
 .btn-container {
-  width: 4rem;
-  height: 7rem;
+  max-width: 4rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1.5rem;
+  padding: 0.5rem;
   background-color: grey;
   border-radius: 2rem;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .btn-container button {
@@ -71,19 +75,21 @@ body {
 }
 .replied-container {
   display: grid;
-  grid-template-columns: 10% 90%;
+  grid-template-columns: 5% 95%;
+  /* gap: 0.5rem; */
 }
 
 .replied-divid {
   height: 100%;
-  width: 5px;
-  background-color: red;
+  width: 1px;
+  border: 1px solid red;
   margin-left: 2rem;
 }
 
 .input-section {
-  /* width: 100%; */
-  height: 6rem;
+  position: relative;
+  width: 90%;
+  /* height: 6rem; */
   background-color: white;
   display: flex;
   align-items: flex-start;
@@ -94,7 +100,7 @@ body {
 }
 
 .input-section input {
-  width: 85%;
+  width: 100%;
   border-radius: 0.3rem;
   padding: 1.5rem;
   border: 2px solid grey;
@@ -111,4 +117,50 @@ body {
 
 .update-btn {
   align-self: flex-end;
+}
+@media screen and (max-width:760px) {
+  .container{
+    gap: 0.5rem;
+  }
+  .comment-section{
+    font-size: 12px;
+    padding: 0.5rem;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+  }
+  .btn-container{
+    order: 1;
+    flex-direction: row;
+  }
+  .reply-button,.input-section button{
+    position: absolute;
+    bottom :0.5rem;
+    right: 0.3rem;
+  }
+  .input-section{
+    flex-direction: column;
+  }
+    .input-section button {
+      padding: 0.7rem;
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+    }
+  /* .input-section button{
+      align-self: flex-end;
+      order: 1;
+    } */
+  .input-section img{
+    order: 1;
+    height: 1.7rem;
+    width: 1.7rem;
+  }
+    .user_avater{
+      gap: 0.5rem;
+    }
+  .replied-divid{
+    margin-left: 0;
+  }
+  
 }
