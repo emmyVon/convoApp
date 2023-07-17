@@ -101,23 +101,25 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
                     <p>{username}</p>
                     <small>{createdAt}</small>
                   </div>
-                  {Data.currentUser.username === username ? (
-                    <div>
-                      <button onClick={() => handleDeleteReply(id)}>
-                        <img src={deleteicon} alt="delete-icon" />
-                        Delete
+                  <div className="reply-button">
+                    {Data.currentUser.username === username ? (
+                      <div>
+                        <button onClick={() => handleDeleteReply(id)}>
+                          <img src={deleteicon} alt="delete-icon" />
+                          Delete
+                        </button>
+                        <button onClick={toggleEdit}>
+                          <img src={editicon} alt="edit-icon" />
+                          edit
+                        </button>
+                      </div>
+                    ) : (
+                      <button onClick={() => setReply((prev) => !prev)}>
+                        <img src={replyicon} alt="reply-icon" />
+                        reply
                       </button>
-                      <button onClick={toggleEdit}>
-                        <img src={editicon} alt="edit-icon" />
-                        edit
-                      </button>
-                    </div>
-                  ) : (
-                    <button onClick={() => setReply((prev) => !prev)}>
-                      <img src={replyicon} alt="reply-icon" />
-                      reply
-                    </button>
-                  )}
+                    )}
+                  </div>
                 </div>
                 {edit ? (
                   <div className="input-section">
@@ -152,15 +154,18 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
           ) : null}
 
           {replyList?.length ? (
-            <div style={{ marginLeft: "6rem" }}>
-              {replyList.map((i) => (
-                <ReplyView
-                  key={i.id}
-                  comment={i}
-                  handleDeleteReply={handleDeleteReplyForReply}
-                  handleEditReply={handleEditReplyForReply}
-                />
-              ))}
+            <div className="replied-container">
+              <div className="replied-divid" />
+              <div>
+                {replyList.map((i) => (
+                  <ReplyView
+                    key={i.id}
+                    comment={i}
+                    handleDeleteReply={handleDeleteReplyForReply}
+                    handleEditReply={handleEditReplyForReply}
+                  />
+                ))}
+              </div>
             </div>
           ) : null}
         </>
@@ -170,3 +175,5 @@ const ReplyView = ({ comment, handleDeleteReply, handleEditReply }) => {
 };
 
 export default ReplyView;
+
+// style={{ marginLeft: "6rem" }}

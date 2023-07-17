@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import CommentList from "./CommentList";
 
 const Home = () => {
   return (
-    <div>
+    <div className="app">
       <CommentList />
       {/* <Comments /> */}
       {/* <Input/> */}
